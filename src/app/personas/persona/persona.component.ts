@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Persona } from '../persona.model';
-import { PersonasService } from '../personas.service';
+import { Persona } from '../../persona.model';
+import { PersonasService } from '../../personas.service';
 
 @Component({
   selector: 'app-persona',
@@ -11,11 +11,9 @@ export class PersonaComponent implements OnInit {
   @Input() persona: Persona;
   @Input() indice: number;
 
-  constructor(private personaService: PersonasService) {}
+  
 
   ngOnInit(): void {}
 
-  emitirSaludo() {
-    this.personaService.saludar.emit(this.indice);
-  }
+  
 }
