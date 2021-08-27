@@ -19,7 +19,7 @@ export class PersonasService {
   }
 
   obtenerPersonas() {
-    return this.dataServices.cragarPersonas();
+    return this.dataServices.cargarPersonas();
   }
   agregarPersna(persona: Persona) {
     this.loggingService.enviaMensajeAConsola(
@@ -29,7 +29,7 @@ export class PersonasService {
       this.personas = [];
     }
     this.personas.push(persona);
-    this.dataServices.guardarPersonas(persona);
+    this.dataServices.guardarPersonas(this.personas);
   }
 
   encontrarPersona(index: number) {
@@ -43,17 +43,16 @@ export class PersonasService {
     persona1.apellido = persona.apellido;
     this.dataServices.modificarPersona(index, persona);
   }
-
-  modificarPersonas() {
-    if (this.personas != null)
-      //Guarda todas las personas nuevamente para regenerar indicess
-      this.dataServices.guardarPersonas(this.personas);
-  }
-
   eliminarPersona(index: number) {
     this.personas.splice(index, 1);
     this.dataServices.eliminarPersona(index);
     //se vuelve a guardar el arreglo
     this.modificarPersonas();
+  }
+  modificarPersonas() {
+    if (this.personas != null) {
+      //Guarda todas las personas nuevamente para regenerar indices
+      this.dataServices.guardarPersonas(this.personas);
+    }
   }
 }

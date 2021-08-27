@@ -22,12 +22,14 @@ export class FormularioComponent implements OnInit {
     private router: Router,
     private route:ActivatedRoute
   ) {
-    
+    this.personasService.saludar.subscribe((indice: number) =>
+      alert('el indice es:' + indice)
+    );
   }
   ngOnInit(): void {
    this.index = this.route.snapshot.params['id']
     this.modoEdicion = +this.route.snapshot.queryParams['modoEdicion'];
-   if(this.modoEdicion != null && this.modoEdicion == 1){
+   if(this.modoEdicion != null && this.modoEdicion === 1){
      let persona: Persona = this.personasService.encontrarPersona(this.index);
      this.nombreInput = persona.nombre;
      this.apellidoInput = persona.apellido;
@@ -35,20 +37,19 @@ export class FormularioComponent implements OnInit {
   }
 
   onGuardarPersona() {
-    if(this.nombreInput != null && this.apellidoInput != null){
-      let persona1:Persona = new Persona(this.nombreInput, this.apellidoInput);
-      if(this.modoEdicion!= null && this.modoEdicion == 1){
-        this.personasService.modificarPersona(this.index, persona1);
-      }
-      else{
-        this.personasService.agregarPersna(persona1);
-      }
-      this.loggingService.enviaMensajeAConsola("persona agregada/modificada:" + persona1.toString());
-      this.router.navigate(['personas']);  
+    let persona1 = new Persona(
+      this.nombreInput,
+      this.apellidoInput
+    );
+    if(this.modoEdicion != null && this.modoEdicion === 1){
+      this.personasService.modificarPersona(this.index,persona1)
+    }else{
+      this.personasService.agregarPersna(persona1);
     }
-    else{//si no tiene datos no hace nada se queda en el mismo lugar
-      return;
-    }
+    
+    
+
+    this.router.navigate(['personas'])
   }
 
   eliminarPersona(){
